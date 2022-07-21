@@ -1,0 +1,146 @@
+{% load static %}
+
+<html>
+<head>
+<!--{% load cache %}-->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<!--<link rel="stylesheet" href="{% static 'new.css' %}">-->
+
+
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">THE NEWS</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+
+
+                <form method="post" action="/">{% csrf_token %}
+
+            <select class="form" id="select" name="category" onchange="this.form.submit();" style="border-radius:8px;">
+                 <option selected>SELECT CATEGORY</option>
+
+
+
+                <option value="sports">sports</option>
+                <option value="entertainment">entertainment</option>
+                <option value="politics">politics</option>
+                <option value="world">world</option>
+                <option value="business">business</option>
+                <option value="miscellaneous">miscellaneous</option>
+                <option value="science">science</option>
+                <option value="automobile">automobile</option>
+
+
+
+
+<!--                <option value="/home/sports/"></option>-->
+            </select>
+        </form>
+    </div>
+</nav>
+<br>
+<br>
+<!--   {% cache 2 i %}-->
+<div class="container">
+<div class="container">
+
+    <div class="row">
+        {% for i in dt %}
+        <div class="col-md-4">
+            <a href="{{i.imageUrl}}"> <img height="280px" width="280px;" src="{{i.imageUrl}}"></a>
+            <h3><b> {{i.title}}</b></h3>
+            <p style="color:gray"><small><b> {{i.date}}</b></small></p>
+            <p> {{i.content|slice:"47"}} <b>...</b> <a href="{{i.url}}x"><b>READ MORE</b></a></p>
+
+        </div>
+        {% endfor %}
+    </div>
+    {% for contact in dt %}
+    {# Each "contact" is a Contact model object. #}
+    {{ contact.full_name|upper }}<br>
+    ...
+{% endfor %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if dt.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ dt.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ dt.number }} {{dt.number|add:"1"}} {{dt.number|add:"2"}}  {{dt.number|add:"3"}}  {{ dt.paginator.num_pages }}.
+            </span>
+
+            {% if dt.has_next %}
+                <a href="?page={{dt.next_page_number }}" methods="get">next</a>
+                <a href="?page={{ dt.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+</div>
+
+<!--<div class="container">-->
+<!--  <div class="title">-->
+<!--    Pagination Design</div>-->
+<!--  <p>Awesome pagination design in HTML and CSS only.</p>-->
+<!--  <ul class="pagination">-->
+<!--    <li class="icon">-->
+<!--        {% if dt.has_previous %}-->
+<!--          <a href="?page=1"><span class="fas fa-angle-left"></span>first</a>-->
+<!--      <a href="?page={{ dt.previous_page_number }}"><span class="fas fa-angle-left"></span>Previous</a>-->
+<!--    {% endif %}-->
+<!--    </li>-->
+<!--    <li><a href="#">{{ dt.number }}</a></li>-->
+<!--    <li><a href="#">{{dt.number|add:"1"}}</a></li>-->
+<!--    <li><a href="#">{{dt.number|add:"2"}}</a></li>-->
+<!--    <li><a href="#">4</a></li>-->
+<!--    <li><a href="#">5</a></li>-->
+<!--    <li><a href="#">6</a></li>-->
+<!--    <li><a href="#">7</a></li>-->
+<!--    <li><a href="#">8</a></li>-->
+<!--    <li><a href="#">9</a></li>-->
+<!--    <li><a href="#">{{ dt.paginator.num_pages }}</a></li>-->
+<!--      {% if dt.has_next %}-->
+<!--    <li class="icon">-->
+
+<!--      <a href="?page={{ dt.next_page_number }}">Next<span class="fas fa-angle-right"></span></a>-->
+<!--         <a href="?page={{ dt.paginator.num_pages }}">last<span class="fas fa-angle-right"></span></a>-->
+<!--    </li>-->
+<!--      {% endif %}-->
+<!--  </ul>-->
+<!--</div>-->
+
+
+<!--{% endcache i %}-->
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+<!--<script src="select.js"></script>-->
+</body>
+
+</html>
